@@ -6,8 +6,6 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '运单管理',
-        enablePullDownRefresh: true,
-        onReachBottomDistance: 50
+        navigationBarTitleText: '协议'
     }
 }

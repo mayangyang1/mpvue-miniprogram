@@ -108,6 +108,17 @@ export default {
   margin: 0 auto;
 }
 /*标准点击按钮 -- end*/
+/*小按钮 -- start*/
+  .mini-button{
+    width: 200rpx;
+    height: 80rpx;
+    font-size: 32rpx;
+    color: #fff;
+    border-radius: 10rpx;
+    line-height: 80rpx;
+    text-align: center;
+  }
+/*小按钮 -- end*/
 /*遮罩 -- start*/
 .over{
   position: fixed;

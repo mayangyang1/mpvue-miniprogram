@@ -93,9 +93,81 @@ export default {
       })
     },
     registerUser() { //注册用户
+      var that = this;
+      that.validateLoginAccount(that.phone);
+    },
+    validateLoginAccount(loginAccount) { //检查注册账号是否存在
+      var that = this;
+      var click = that.click;
+      utils.postAjax(utils.hostUrl + `/account/account/${loginAccount}/validate`, { loginAccount: loginAccount }, {
+        success: function (res) {
+          if (res.data.code === 200) {
+            if (click) {
+              that.click = false;
+              var params = {
+                loginAccount: that.phone,
+                verifyCode: that.versionCode,
+                password: that.password,
+                fullName: that.userName
+              };
+              wx.login({
+                success: function (res) {
+                  params.code = res.code;
+                  wx.getUserInfo({
+                    success: function (res) {
+                      params.encryptedData = res.encryptedData;
+                      params.iv = res.iv;
+                      //注册小程序帐号
+                      that.reg(params.code, params);
+                    }
+                  });
+                },
+                complete:function() {
+                  that.click = true;
+                }
+              });
 
-    }
-
+            }
+          } else {
+            that.click = true;
+            utils.errorToast('该账号已存在')
+          }
+        }
+      })
+    },
+    reg: function (code, params) {
+      var that = this;
+      var cookie = wx.getStorageSync('cookies');
+      wx.request({
+        url: utils.hostUrl + `/account/account/add_wechat/rltx/${code}`,
+        header: { 'Content-Type': 'application/x-www-form-urlencoded', 'Cookie': 'JSESSIONID=' + cookie },
+        data: params,
+        method: "POST",
+        success: function (res) {
+          if (res.data.code === 200 && res.data.content != void 0) {
+            wx.showModal({
+              title: '提示',
+              content: '注册成功',
+              showCancel: false,
+              success: function (res) {
+                //登录
+                utils.logins(that);
+              }
+            })
+          } else if (res.data.code === 500 && res.data.content != void 0) {
+            utils.errorToast(res.data.content);
+          }
+        },
+        fail: function (res) {
+          utils.errorToast('请求失败!');
+        },
+        complete(res) {
+          setTimeout(function () {
+            that.click = true;
+          }, 400)
+        }
+      })
+    },
   },
   created() {
    

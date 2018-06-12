@@ -133,13 +133,9 @@ const wxLogin = (code) => {
       login(code, res.encryptedData, res.iv, true);
     },
     fail: function (res) {
-      errorToast('授权失败!');
-      // 调起客户端小程序设置界面，返回用户设置的操作结果。
-      wx.openSetting({
-        success: (res) => {
-          wxLogin(code);
-        }
-      });
+      wx.redirectTo({
+        url: '../../pages/jurisdiction/main',
+      })
     },
     complete: function () {
       wx.hideNavigationBarLoading();
@@ -174,8 +170,8 @@ const login = (code, encryptedData, iv, skip, loginAccount, password, isBtn) => 
         wx.setStorageSync("userCode", res.data.content.userCode);
         //跳转首页
         var currentRouteUrl = getCurrentRouteUrl();
-        if (currentRouteUrl.indexOf('/switchover/main') > -1 || currentRouteUrl.indexOf('/login/main') > -1) {
-          wx.switchTab({
+        if (currentRouteUrl.indexOf('/regies/main') > -1 || currentRouteUrl.indexOf('/login/main') > -1) {
+          wx.redirectTo({
             url: '/pages/index/main'
           })
         }

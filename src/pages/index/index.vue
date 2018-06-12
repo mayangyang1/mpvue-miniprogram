@@ -343,14 +343,26 @@ export default {
       that.districtCode = that.districtData[index].code;
     },
     // 地区插件方法 -- end
+    getWebViewParams() { //获取所有的web-view参数并保存到storage里
+      var that = this;
+      utils.getAjax(utils.hostUrl + '/platform/platform/core/config/other', { 
+        success: function (res) {
+          if (res.data.code == 200) {
+            var aggrementMessage = res.data.content;
+            wx.setStorageSync('webViewParams', aggrementMessage);
+          }
+        }
+      })
+    }
   },
 
   created() {
     
   },
-  beforeMount() {
+  onShow() {
     utils.logins(this);
     this.getGoodsList();
+    this.getWebViewParams();
   },
   onPullDownRefresh() {
     this.mark = 0;
