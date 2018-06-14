@@ -20,6 +20,7 @@ export default {
       'pages/findpassword/main', //忘记密码页
       'pages/entrustAgreement/main', //委托吊车协议详情
       'pages/agreement/main', //注册协议详情
+      'pages/history/main', //历史运单
     ],
     window: {
       backgroundTextStyle: 'light',

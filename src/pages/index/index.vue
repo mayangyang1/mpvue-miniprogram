@@ -15,7 +15,7 @@
           </div>
           <div class="good-time">{{item.publishTime}}</div>
         </div>
-        <div class="good-item-list flex-fs">
+        <div class="good-item-list flex-fs" v-if="item.routeName">
           <div class="title">线路</div>
           <div class="msg-con blue-color">{{item.routeName}}</div>
         </div>

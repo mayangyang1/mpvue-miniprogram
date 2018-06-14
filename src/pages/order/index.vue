@@ -1,7 +1,7 @@
 <template>
   <div class="container pdb20">
       <div class="history-order flex-fe main-color">
-        <div class="pdr20">历史运单</div>
+        <div class="pdr20" @click="toHistoryOrder">历史运单</div>
       </div>
       <waybill-pop :itemValue="itemValue" v-if="isSureWaybill" @doAgree="doAgree"></waybill-pop>
       <div class="order-list" v-if="orderList.length">
@@ -60,6 +60,11 @@ export default {
     };
   },
   methods:{
+    toHistoryOrder() { //查看历史运单
+      wx.navigateTo({
+        url: '../history/main'
+      })
+    },
     getOrderList() { //获取运单列表
       var that = this;
       if(that.click){
