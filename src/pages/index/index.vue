@@ -1,9 +1,10 @@
 <template>
   <div class="container pdb20">
     <div class="search-bar">
+      <!-- 搜索框组件 --start -->
       <search-bar @searchBar="searchBar"></search-bar>
+      <!-- 搜索框组件 --end -->      
     </div>
-    
     <div class="good-list" v-if="goodList.length">
       <div class="good-item pdl20 pdb20" v-for="item in goodList" :key="item.code">
         <div class="good-item-header flex-sb">
@@ -37,74 +38,40 @@
       <input type="text" v-model="goodsName" placeholder="请输入货品名称">
       <div class="common-btn main-bg-color row" @click="bindSearch">搜索</div>
     </div>
-
-    <!-- 城市选择器start -->
-    <view class="address-picker-mack" v-if="addressPickerView">
-      <view class="address-picker-view-wrap">
-        <view class="button-item">
-          <label class="cancel" @click="bindAddressCancel">取消</label>
-          <label class="complete" @click="bindAddressComplete">完成</label>
-        </view>
-        <view class="picker-view-item">
-          <picker-view class="picker-view" indicator-style="height: 40px;" :value="province_index" @change="bindProvinceChange">
-            <picker-view-column>
-              <view class="item" v-for="item in provinceData" :key="item.code" style="line-height: 40px">{{item.chineseShortName}}</view>
-            </picker-view-column>
-          </picker-view>
-          <picker-view class="picker-view" indicator-style="height: 40px;" :value="city_index" @change="bindCityChange">
-            <picker-view-column>
-              <view class="item" v-for="item in cityData" :key="item.code" style="line-height: 40px">{{item.chineseShortName}}</view>
-            </picker-view-column>
-          </picker-view>
-          <picker-view class="picker-view" indicator-style="height: 40px;" :value="district_index" @change="bindDistrictChange">
-            <picker-view-column>
-              <view class="item" v-for="item in districtData" :key="item.code" style="line-height: 40px">{{item.chineseShortName}}</view>
-            </picker-view-column>
-          </picker-view>
-        </view>
-      </view>
-    </view>
-    <!-- 城市选择器end -->
+    <!-- 城市选择器组件 --start -->
+    <block v-if="addressPickerView" >
+      <city-select @selectCity="selectCity"></city-select>
+    </block>
+    <!-- 城市选择器组件 --start -->
   </div>
 </template>
 
 <script>
 import Searchbar from "@/components/search";
+import CitySelect from "@/components/citySelect";
 import * as utils from "../../utils/index.js";
 export default {
   data() {
     return {
       isSearch: false,
-      userInfo: {},
       mark: 0,
       click: true,
       goodsName: "",
       goodList: [],
       unitConfig: utils.config.unit,
       addressPickerView: false,
-      provinceData: [{
-        chineseShortName: '请选择',
-        code: '',
-      }],
-      cityData: [{
-        chineseShortName: '请选择',
-        code: '',
-      }],
-      districtData: [{
-        chineseShortName: '请选择',
-        code: '',
-      }],
       areaType: '',
       fromAreaText: '',
       toAreaText: '',
+      formArea: [],
+      toArea: [],
 
     };
   },
-
   components: {
-    "search-bar": Searchbar
+    "search-bar": Searchbar,
+    "city-select": CitySelect
   },
-
   methods: {
     searchBar(_value) {
       //监听tabbar点击事件;
@@ -141,14 +108,9 @@ export default {
           if (that.toArea.cityCode) params.unloadingCityCode = that.toArea.cityCode;
           if (that.toArea.districtCode) params.unloadingCountyCode = that.toArea.districtCode;
         }
-        utils.ajax(
-          "GET",
-          utils.hostUrl + `/driver-api/driver-api/freight/list`,
-          params,
-          {
+        utils.ajax("GET", utils.hostUrl + `/driver-api/driver-api/freight/list`, params, {
             success: function(res) {
               var goodList = res.data.content;
-              that.goodsName = "";
               if (res.data.code === 200 && goodList.length > 0) {
                 goodList.forEach((_value, index) => {
                   if (_value.publishTime) {
@@ -160,6 +122,11 @@ export default {
               }
             },
             complete: function() {
+              that.goodsName = "";
+              that.fromAreaText = "";
+              that.toAreaText = "";
+              that.formArea = [];
+              that.toArea = [];
               that.click = true;
               wx.stopPullDownRefresh();
             }
@@ -167,184 +134,38 @@ export default {
         );
       }
     },
-    // 地区插件方法 -- start
+    // 组件地区插件 --start
     bindSelectArea(e) {
-      this.initProvinceData();
-      this.areaType = e.currentTarget.dataset.types;
-      this.addressPickerView = true;
-    },
-    initProvinceData: function () { //省列表 
       var that = this;
-      delete that.provinceCode;
-      delete that.cityCode;
-      delete that.districtCode;
-      utils.getAjax(utils.hostUrl +'/org-config/org-config/province/list', {
-        success: function (res) {
-          if(res.data.code === 200) {
-            var provinceData = res.data.content;
-            that.provinceData = that.provinceData.concat(provinceData);
-            that.cityData = [{
-              chineseShortName: '请选择',
-              code: '',
-            }];
-            that.districtData = [{
-              chineseShortName: '请选择',
-              code: '',
-            }];
-          }
-          
+      that.areaType = e.currentTarget.dataset.types;
+      that.addressPickerView = true;
+    },
+    selectCity(isSelect, text, provinceCode, cityCode, districtCode){
+      var that = this;
+      if(isSelect) { //完成选择
+        if (that.areaType == 'source'){
+          that.formArea = [];
+          that.formArea.provinceCode = provinceCode;
+          that.formArea.cityCode = cityCode;
+          that.formArea.districtCode = districtCode;
+          that.fromAreaText = text.substr(3);
+          that.addressPickerView = false;
+        } else if (that.areaType == 'target') {
+          that.toArea = [];
+          that.toArea.provinceCode = provinceCode;
+          that.toArea.cityCode = cityCode;
+          that.toArea.districtCode = districtCode;
+          that.toAreaText = text.substr(3);
+          that.addressPickerView = false;
         }
-      });
-    },
-     bindAddressCancel: function(){//取消选择地区
-      var that = this;
-      delete that.formArea;
-      delete that.toArea;
-      delete that.provinceCode;
-      delete that.cityCode;
-      delete that.districtCode;
-      delete that.goodsName;
-      that.addressPickerView = false;
-      that.provinceData = [{
-        chineseShortName: '请选择',
-        code: '',
-      }]
-      that.cityData = [{
-        chineseShortName: '请选择',
-        code: '',
-      }]
-      that.districtData = [{
-        chineseShortName: '请选择',
-        code: '',
-      }]
-    },
-    bindAddressComplete: function(){
-      var that = this;
-      var text = '';
-      var provinceCode = '',cityCode ='', districtCode = '';
-      if (that.provinceCode) {
-        text += " - " + that.provinceData[that.province_index].chineseShortName;
-        provinceCode = that.provinceCode;
-      }
-      if (that.cityCode) {
-        text += " - " + that.cityData[that.city_index].chineseShortName;
-        cityCode = that.cityCode;
-      }
-      if (that.districtCode) {
-        text += " - " + that.districtData[that.district_index].chineseShortName;
-        districtCode = that.districtCode;
-      }
-      if (that.areaType == 'source'){
-        that.formArea = [];
-        that.formArea.provinceCode = provinceCode;
-        that.formArea.cityCode = cityCode;
-        that.formArea.districtCode = districtCode;
-        that.fromAreaText = text.substr(3);
+      }else{ //取消选择
         that.addressPickerView = false;
-        that.provinceData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }];
-        that.cityData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }];
-        that.districtData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }];
-      } else if (that.areaType == 'target') {
-        that.toArea = [];
-        that.toArea.provinceCode = provinceCode;
-        that.toArea.cityCode = cityCode;
-        that.toArea.districtCode = districtCode;
-        that.toAreaText = text.substr(3);
-        that.addressPickerView = false;
-        that.provinceData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }];
-        that.cityData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }];
-        that.districtData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }];
+        delete that.formArea;
+        delete that.toArea;
+        delete that.goodsName;
       }
     },
-    bindProvinceChange: function (e) {//选择省并获取城市
-      var that = this;
-      var index = e.target.value[0];
-      that.province_index = index;
-      that.provinceCode = that.provinceData[index].code;
-      if (!that.provinceCode){
-        that.city_index = 0;
-        delete that.cityCode;
-        that.district_index = 0;
-        delete that.districtCode;
-        that.cityData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }]
-        that.districtData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }]
-      }
-      utils.getAjax(utils.hostUrl +`/org-config/org-config/city/list?provinceCode=${this.provinceCode}`, {
-        success: function (res) {
-          var cityData = res.data.content;
-          that.cityData = [{
-            chineseShortName: '请选择',
-            code: '',
-          }];
-          that.cityData = that.cityData.concat(cityData);
-        }
-      });
-    },
-    bindCityChange: function (e) {//选择城市并获取地区
-      var that = this;
-      var index = e.target.value[0];
-      if (!index) {
-        that.city_index = 0;
-        delete that.cityCode;
-        that.district_index = 0;
-        delete that.districtCode;
-        that.districtData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }]
-      }
-      that.city_index = index;
-      that.cityCode = that.cityData[index].code;
-      utils.getAjax(utils.hostUrl +`/org-config/org-config/county/list?cityCode=${this.cityCode}`, {
-        success: function (res) {
-          var districtData = res.data.content;
-          that.districtData = [{
-            chineseShortName: '请选择',
-            code: '',
-          }];
-          that.districtData = that.districtData.concat(districtData);
-        }
-      });
-    },
-    bindDistrictChange: function(e){//选择地区
-      var that =this;
-      var index = e.target.value[0];
-      if(!index){
-        that.district_index = 0;
-        delete that.districtCode;
-        that.districtData = [{
-          chineseShortName: '请选择',
-          code: '',
-        }];
-      }
-      that.district_index = index;
-      that.districtCode = that.districtData[index].code;
-    },
-    // 地区插件方法 -- end
+    // 组件地区插件 --end
     getWebViewParams() { //获取所有的web-view参数并保存到storage里
       var that = this;
       utils.getAjax(utils.hostUrl + '/platform/platform/core/config/other', { 
@@ -356,10 +177,6 @@ export default {
         }
       })
     }
-  },
-
-  created() {
-    
   },
   onShow() {
     utils.logins(this);
@@ -442,48 +259,4 @@ export default {
 .common-btn {
   width: 90%;
 }
-
-/*..................地区选择器样式start....*/
-.address-picker-mack {
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 10;
-}
-.address-picker-view-wrap {
-  width: 100%;
-  height: 280px;
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  background: #fff;
-}
-.address-picker-view-wrap .picker-view-item {
-  display: flex;
-}
-.address-picker-view-wrap .picker-view {
-  width: 100%;
-  height: 280px;
-}
-.address-picker-view-wrap .picker-view picker-view-column {
-  text-align: center;
-}
-.address-picker-view-wrap .button-item {
-  background: #fbf9fe;
-  overflow: hidden;
-  padding: 12px 15px;
-  font-size: 16px;
-}
-.address-picker-view-wrap .button-item .cancel {
-  float: left;
-  color: #999;
-}
-.address-picker-view-wrap .button-item .complete {
-  float: right;
-  color: #2da141;
-}
-/*..................地区选择器样式end...........*/
 </style>
