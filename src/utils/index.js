@@ -171,7 +171,7 @@ const login = (code, encryptedData, iv, skip, loginAccount, password, isBtn) => 
         //跳转首页
         var currentRouteUrl = getCurrentRouteUrl();
         if (currentRouteUrl.indexOf('/regies/main') > -1 || currentRouteUrl.indexOf('/login/main') > -1) {
-          wx.redirectTo({
+          wx.switchTab({
             url: '/pages/index/main'
           })
         }

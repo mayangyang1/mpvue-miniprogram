@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '注册账号'
+        navigationBarTitleText: '个人中心'
     }
 }

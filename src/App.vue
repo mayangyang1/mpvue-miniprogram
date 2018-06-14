@@ -131,5 +131,16 @@ export default {
   opacity: .3;
 }
 /*遮罩 -- end*/
+/*没有返回数据时---start*/
+.no-message{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  font-size: 80rpx;
+  color: #999
+}
+/*没有返回数据时---end*/
 </style>
 

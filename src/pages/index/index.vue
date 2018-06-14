@@ -4,7 +4,7 @@
       <search-bar @searchBar="searchBar"></search-bar>
     </div>
     
-    <div class="good-list">
+    <div class="good-list" v-if="goodList.length">
       <div class="good-item pdl20 pdb20" v-for="item in goodList" :key="item.code">
         <div class="good-item-header flex-sb">
           <div class="adderss flex-fs">
@@ -24,11 +24,12 @@
         </div>
         <div class="good-item-list  flex-fs">
           <div class="title">司机运价</div>
-          <div class="msg-con" v-if="item.quoteType == 'price'">160元/吨</div>
+          <div class="msg-con" v-if="item.quoteType == 'price'">{{item.quotePrice}}{{unitConfig[item.meterageType]["driver.price"][item.quotePriceUnitCode]}}</div>
           <div class="msg-con" v-if="item.quoteType == 'quote'">司机报价</div>
         </div>
       </div>
     </div>
+    <div class="no-message" v-else>暂无货源</div>
     <div class="over" v-if="isSearch" @click="bindCancleSearch"></div>
     <div class="search-condition pdb20" v-if="isSearch">
       <input type="text" @click="bindSelectArea" v-model="fromAreaText" disabled data-types="source"  placeholder="请输入出发地">
@@ -79,6 +80,7 @@ export default {
       click: true,
       goodsName: "",
       goodList: [],
+      unitConfig: utils.config.unit,
       addressPickerView: false,
       provinceData: [{
         chineseShortName: '请选择',
@@ -402,11 +404,11 @@ export default {
   height: 30rpx;
 }
 .from-address {
-  width: 240rpx;
+  width: 220rpx;
   font-size: 32rpx;
 }
 .good-time {
-  width: 250rpx;
+  width: 170rpx;
   padding-right: 20rpx;
   color: #999;
 }

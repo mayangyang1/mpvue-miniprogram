@@ -1,33 +1,102 @@
 <template>
   <div class="container">
-        <div class='register-list'>
-            <div class='title'>手机号</div>
-            <input bindinput='bindPhone' placeholder='请输入手机号'>
-        </div>
-        <div class='register-list'>
-            <div class='title'>验证码</div>
-            <input bindinput='bindVersionCode' placeholder='请输入验证码'>
-            <div class='getCode' v-if="isVersion" bindtap='getVersionCode'>获取验证码</div>
-            <div class='getCode' v-else >重新获取({{timer}})</div>
-        </div>
-        <div class='register-list'>
-            <div class='title'>姓 名</div>
-            <input bindinput='bindUserName' placeholder='请输入你的真实姓名'>
-        </div>
-        <div class='register-list setMargin'>
-            <div class='title'>密 码</div>
-            <input bindinput='bindPassword' password='true' placeholder='请输入密码'>
-        </div>
-        <div class='register-list'>
-            <div class='title'>确认密码</div>
-            <input bindinput='bindSurePassword' password='true' placeholder='请再次输入密码'>
-        </div>
-        <div class='agreement-con'>
-            <!-- <checkbox checked='{{false}}' color='#f46d00'></checkbox> -->
-            <div>同意<text class='agreement'>《天盾物流注册服务协议》</text></div>
-        </div>
-        <div class='register'>注册</div>
+    <div class="account">
+      <div class="account-title">账号余额</div>
+      <div class="account-money">¥ 12000.00</div>
+      <div class="account-btn row">提现</div>
+      <div class="wave-list">
+        <img class="wave1"  src="/static/images/wave1.png" alt="">
+        
+        <img class="wave3" src="/static/images/wave3.png" alt="">
+        <img class="wave2"   src="/static/images/wave2.png" alt="">
+      </div>
     </div>
+    <div class="personal-list">
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/carte.png" alt="">
+          <div>我的名片</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/margin.png" alt="">
+          <div>我的保证金</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <div class="mgr20 status">已支付</div>
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/receipt.png" alt="">
+          <div>我的收款信息</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/transaction.png" alt="">
+          <div>交易记录</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/bankcard.png" alt="">
+          <div>我的银行卡</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <div class="mgr20 status">未绑定</div>
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/safety.png" alt="">
+          <div>安全设置</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/collection.png" alt="">
+          <div>我的收藏</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/servicephone.png" alt="">
+          <div>客服热线</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+      <div class="personal-item flex-sb pdlr20">
+        <div class="title flex-fs">
+          <img mode="widthFix" src="/static/images/abount.png" alt="">
+          <div>关于我们</div>
+        </div>  
+        <div class="arrow flex-sb">
+          <img mode="widthFix" src="/static/images/arrows.png" alt="">
+        </div>
+      </div>  
+    </div>      
+  </div>
 </template>
 
 <script>
@@ -48,72 +117,111 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container{
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #eee;
-  font-size: 34rpx;
-  padding-top: 30rpx;
+  font-size: 32rpx;
+  padding-bottom: 40rpx;
 }
-.register-list{
-  width: 100%;
+.account{
+  position: relative;
+  z-index: 1;
+  height: 330rpx;
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 90rpx;
-  border-bottom: 1px solid #ccc;
-  padding-left: 20rpx;
-  background-color: #fff;
+  color: #fff;
+  line-height: 60rpx;
+  background: linear-gradient(#f69b2e,#f48400);
 }
-.register-list .title{
-  width: 150rpx;
+.account .account-title{
+  font-size: 30rpx;
+  padding-top: 40rpx;
 }
-.register-list input{
-  flex: 1;
+.account .account-money{
+  font-size: 50rpx;
+  font-weight: 600;
+  padding-top: 20rpx;
+  padding-bottom: 30rpx;
 }
-.register-list .getCode{
-  height: 90rpx;
-  width: 200rpx;
-  text-align: center;
-  border-left: 1px solid #ccc;
-  line-height: 90rpx;
-  background-color: #eee;
-  color: #666;
+.account-btn{
+  font-size: 30rpx;
+  border: 1px solid #fff;
+  width: 260rpx;
+  border-radius: 50rpx;
+  line-height: 30rpx;
+  padding: 10rpx 0;
+  position: relative;
+  z-index: 4;
 }
-.register-list .getCode:active{
-  background-color: #eee;
-  color: #999;
+.wave-list{
+  position: absolute;
+  z-index: 1;
+  bottom: 0rpx;
+  height: 130rpx;
+  width: 100vw;
+  overflow: hidden;
 }
-.setMargin{
-  margin-top: 30rpx;
-}
-.agreement-con{
-  display: flex;
-  justify-content: flex-start;
+.wave-list image{
+  width: 100vw;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  left: -1000rpx;
+  width: 2000rpx;
   height: 80rpx;
-  align-items: center;
-  padding-left: 20rpx;
 }
- 
-.agreement{
-  color: #f46d00;
+.wave1{
+  animation: wave1 20s linear infinite;
+}
+.wave2{
+  animation: wave2 20s linear infinite;
+}
+.wave3{
+  left: 1000rpx;
+  animation: wave3 20s linear infinite;
 }
 
-.register{
-  width: 80vw;
-  height: 80rpx;
-  background-color: #f46d00;
-  text-align: center;
-  line-height: 80rpx;
-  font-size: 34rpx;
-  margin: 0 auto;
-  color: #fff;
-  border-radius: 10rpx;
-  margin-top: 50rpx;
+@keyframes wave1{
+  0% {transform: translate3d(0rpx,0,0);}
+  50% {transform: translate3d(800rpx,0,0);}
+  100% {transform: translate3d(0rpx,0,0);}
 }
-.register:active{
-  background-color: #f48d00;
-  font-size: 37rpx;
+@keyframes wave2 {
+  0% {transform: translate3d(800rpx,0,0);}
+  50% {transform: translate3d(100rpx,0,0);}
+  100% {transform: translate3d(800rpx,0,0);}
 }
+@keyframes wave3 {
+  0% {transform: translate3d(100rpx,0,0);}
+  50% {transform: translate3d(800rpx,0,0);}
+  100% {transform: translate3d(100rpx,0,0);}
+}
+.personal-list{
+  padding-top: 40rpx;
+  position: relative;
+  z-index: 5;
+}
+.personal-item{
+  border-bottom: 1px solid #f2f2f2;
+  height: 90rpx;
+  background-color: #fff;
+}
+.personal-item .title img{
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+.personal-item .arrow img{
+  width: 18rpx;
+  height: 18rpx;
+} 
+.arrow .status{
+  font-size: 28rpx;
+  color: #999;
+}
+
 </style>

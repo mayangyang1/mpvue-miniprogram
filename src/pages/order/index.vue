@@ -4,7 +4,7 @@
         <div class="pdr20">历史运单</div>
       </div>
       <waybill-pop :itemValue="itemValue" v-if="isSureWaybill" @doAgree="doAgree"></waybill-pop>
-      <div class="order-list">
+      <div class="order-list" v-if="orderList.length">
           <div class="order-item " v-for="item in orderList" :key="item.code">
             <div class="order-address flex-sb">
               <div class="address flex-fs" v-if="item.routeName">{{item.routeName}}</div>
@@ -34,6 +34,7 @@
             </div>
           </div>
       </div>
+      <div class="no-message" v-else>暂无运单</div>
   </div> 
 </template>
 
