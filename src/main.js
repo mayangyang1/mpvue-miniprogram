@@ -21,6 +21,7 @@ export default {
       'pages/entrustAgreement/main', //委托吊车协议详情
       'pages/agreement/main', //注册协议详情
       'pages/history/main', //历史运单
+      'pages/sourceGoodsDetails/main', // 货源详情
     ],
     window: {
       backgroundTextStyle: 'light',

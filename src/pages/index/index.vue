@@ -6,7 +6,7 @@
       <!-- 搜索框组件 --end -->      
     </div>
     <div class="good-list" v-if="goodList.length">
-      <div class="good-item pdl20 pdb20" v-for="item in goodList" :key="item.code">
+      <div class="good-item pdl20 pdb20" @click="bindGoodsDetails(index)" v-for="item in goodList" :key="item.code">
         <div class="good-item-header flex-sb">
           <div class="adderss flex-fs">
             <div class="from-address text-overflow">{{item.loadingCityName}} {{item.loadingCountyName}}</div>
@@ -16,17 +16,17 @@
           <div class="good-time">{{item.publishTime}}</div>
         </div>
         <div class="good-item-list flex-fs" v-if="item.routeName">
-          <div class="title">线路</div>
+          <div class="title">线&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;路</div>
           <div class="msg-con blue-color">{{item.routeName}}</div>
         </div>
         <div class="good-item-list  flex-fs">
-          <div class="title">货品</div>
+          <div class="title">货&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;品</div>
           <div class="msg-con blue-color">{{item.goodsName}}</div>
         </div>
         <div class="good-item-list  flex-fs">
           <div class="title">司机运价</div>
           <div class="msg-con" v-if="item.quoteType == 'price'">{{item.quotePrice}}{{unitConfig[item.meterageType]["driver.price"][item.quotePriceUnitCode]}}</div>
-          <div class="msg-con" v-if="item.quoteType == 'quote'">司机报价</div>
+          <div class="msg-con main-color" v-if="item.quoteType == 'quote'">司机报价</div>
         </div>
       </div>
     </div>
@@ -176,6 +176,12 @@ export default {
           }
         }
       })
+    },
+    bindGoodsDetails(_index) { //查看货源详情
+    var code = this.goodList[_index].code;
+      wx.navigateTo({
+        url: `../sourceGoodsDetails/main?code=${code}`
+      })
     }
   },
   onShow() {
@@ -235,7 +241,7 @@ export default {
 }
 .good-item-list .title {
   color: #999;
-  margin-right: 40rpx;
+  margin-right: 77rpx;
 }
 .msg-con {
   font-size: 30rpx;

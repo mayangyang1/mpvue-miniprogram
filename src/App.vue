@@ -64,6 +64,12 @@ export default {
 .pdb20{
   padding-bottom: 20rpx;
 }
+.pdtb20{
+  padding: 20rpx 0;
+}
+.pdt20{
+  padding-top: 20rpx;
+}
 /*padding布局 --end*/
 /*margin布局 -- start*/
 .mg20{
@@ -78,7 +84,9 @@ export default {
 .mglr20{
   margin: 0 20rpx;
 }
-
+.mgt20{
+  margin-top: 20rpx;
+}
 /*margin布局 -- end*/
 /*盒子居中 -- start*/
 .box-center{
@@ -142,5 +150,8 @@ export default {
   color: #999
 }
 /*没有返回数据时---end*/
+.bdb{
+  border-bottom: 1px solid #f2f2f2;
+}
 </style>
 

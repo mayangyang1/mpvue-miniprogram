@@ -6,8 +6,6 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '历史运单',
-        enablePullDownRefresh: true,
-        onReachBottomDistance: 50
+        navigationBarTitleText: '货源详情'
     }
 }
