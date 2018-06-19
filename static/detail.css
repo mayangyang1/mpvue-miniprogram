@@ -1,0 +1,90 @@
+.container{
+  background-color: #f2f2f2;
+  padding-bottom: 240rpx;
+}
+.source-route-name{
+  height: 100rpx;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  font-size: 34rpx;
+  color: #8e8e8e;
+  font-weight: 600;
+}
+.driver-receive{
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  position: relative;
+}
+.driver-receive .tips{
+  border-right: 1px solid #f2f2f2;
+  width: 35rpx;
+  height: 300rpx;
+  margin-right: 30rpx;
+  align-self: flex-start;
+}
+.cont{
+  min-height: 400rpx;
+  line-height: 50rpx;
+  flex: 1;
+}
+.route-line {
+  min-height: 178rpx;
+}
+.route-line .state-img{
+  width: 160rpx;
+  height: 80rpx;
+  position: absolute;
+  top: 20rpx;
+  right: 0;
+}
+.route-address{
+  position: relative;
+  font-size: 36rpx;
+  font-weight: 600;
+  width: 450rpx;
+}
+.route-line .state{
+  position:absolute;
+  top:0;
+  left:-87rpx;
+  width:80rpx;
+  height:80rpx;
+}
+.route-message{
+  font-size: 28rpx;
+  width: 530rpx;
+}
+.title-tips{
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #f2f2f2;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+.concat-phone{
+  background-color: #fff;
+  font-size: 32rpx;
+  margin-right: 10rpx;
+  height: 100rpx;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.user-name{
+  color: #666;
+}
+.base-message-list{
+  background-color: #fff;
+  line-height: 50rpx;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.message-title{
+  width: 200rpx;
+  color: #999;
+}
+.message-con{
+  flex: 1;
+  font-size: 30rpx;
+  color: #454545;
+}

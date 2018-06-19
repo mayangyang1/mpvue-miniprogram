@@ -7,14 +7,14 @@
       <div class="tips pdl20"></div>
       <div class='cont mgl20'>
         <div class='route-line bdb pdb20'>
-          <div class='route-address'><img class="state" mode='aspectFit' src='/static/images/f.png'>{{sourceDetailObj.loadingProvinceName}} {{sourceDetailObj.loadingCityName}} {{sourceDetailObj.loadingCountyName}}地址</div>
+          <div class='route-address'><img class="state" mode='aspectFit' src='/static/images/f.png'>{{sourceDetailObj.loadingProvinceName}} {{sourceDetailObj.loadingCityName}} {{sourceDetailObj.loadingCountyName}}</div>
           <div class='route-message'>{{sourceDetailObj.loadingAddress}}</div>
           <div class='route-message'>{{sourceDetailObj.loadingOrgName}}</div>
           <img class="state-img" v-if="sourceDetailObj.status == 'pushling'" mode="widthFix" src="/static/images/loding.jpg">
           <img class="state-img" v-if="sourceDetailObj.status == 'finished'" src="/static/images/finish.jpg">
         </div>
         <div class='route-line pdt20'>
-          <div class='route-address'><img class="state" mode='aspectFit' src='/static/images/z.png'>{{sourceDetailObj.unloadingProvinceName}} {{sourceDetailObj.unloadingCityName}} {{sourceDetailObj.unloadingCountyName}}地址</div>
+          <div class='route-address'><img class="state" mode='aspectFit' src='/static/images/z.png'>{{sourceDetailObj.unloadingProvinceName}} {{sourceDetailObj.unloadingCityName}} {{sourceDetailObj.unloadingCountyName}}</div>
           <div class='route-message'>{{sourceDetailObj.unloadingAddress}}</div>
           <div class='route-message'>{{sourceDetailObj.unloadingOrgName}}</div>
         </div>
@@ -94,7 +94,7 @@
             </block>
             <block v-if="item.driverAcceptStatus == 'dispatched' || item.driverAcceptStatus == 'comfirmed'">
               <div class="truck-status">已派车</div>
-              <div class="operation-btn">查看运单</div>
+              <div class="operation-btn" @click="bindSeeWaybillDetail(item.waybillCode)">查看运单</div>
             </block>
              <block v-if="item.driverAcceptStatus == 'canceled'">
               <div class="truck-status">已取消</div>
@@ -402,6 +402,11 @@ export default {
           }
         });
       }
+    },
+    bindSeeWaybillDetail(code) { //查看运单详情
+      wx.navigateTo({
+        url: `../orderDetail/main?code=${code}`
+      })
     }
   },
   mounted(){

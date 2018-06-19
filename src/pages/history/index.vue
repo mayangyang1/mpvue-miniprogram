@@ -1,7 +1,7 @@
 <template>
   <div class="container">
      <div class="order-list" v-if="orderList.length">
-          <div class="order-item pdb20" v-for="item in orderList" :key="item.code">
+          <div class="order-item pdb20" v-for="item in orderList" :key="item.code" @click="bindWaybillDetail(item.code)">
             <div class="order-address flex-sb">
               <div class="address flex-fs" v-if="item.routeName">{{item.routeName}}</div>
               <div class="address flex-fs" v-else>
@@ -9,8 +9,7 @@
                 <img model="widthFix" src="/static/images/arrow.png">
                 <div class="to-address text-overflow pdl20">{{item.unloadingCityName}} {{item.unloadingCountyName}}</div>
               </div>
-              <div class="status main-color" v-if="item.waybillStatus == 'unloading'">代发货</div>
-              <div class="status main-color" v-if="item.waybillStatus == 'going'">运输中</div>
+              <div class="status main-color" v-if="item.waybillStatus == 'cancel'">运单取消</div>
               <div class="status main-color" v-if="item.waybillStatus == 'finish'">运单完成</div>
               <div class="status main-color" v-if="item.waybillStatus == 'settled'">结算完成</div>
             </div>
@@ -73,16 +72,24 @@ export default {
           }
         });
       }
-    }
+    },
+    bindWaybillDetail(code) { //查看历史运单详情
+      wx.navigateTo({
+        url: `../orderDetail/main?code=${code}`
+      })
+    } 
   },
   onShow() {
-    this.getHistoryOrderList();
+    var that = this;
+    that.mark = 0;
+    that.orderList = [];
+    that.getHistoryOrderList();
   },
   onPullDownRefresh() {
     var that = this;
     that.mark = 0;
     that.orderList = [];
-    this.getHistoryOrderList();
+    that.getHistoryOrderList();
   },
   onReachBottom() {
     this.getHistoryOrderList();

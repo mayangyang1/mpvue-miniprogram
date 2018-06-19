@@ -5,7 +5,7 @@
       </div>
       <waybill-pop :itemValue="itemValue" v-if="isSureWaybill" @doAgree="doAgree"></waybill-pop>
       <div class="order-list" v-if="orderList.length">
-          <div class="order-item " v-for="item in orderList" :key="item.code">
+          <div class="order-item " v-for="item in orderList" :key="item.code" @click="bindOrderDetail(item.code)">
             <div class="order-address flex-sb">
               <div class="address flex-fs" v-if="item.routeName">{{item.routeName}}</div>
               <div class="address flex-fs" v-else>
@@ -29,7 +29,7 @@
             </div>
             <div class="action flex-fe">
               <block v-for="(_value, _index) in actionObj[item.code]" :key="_index">
-                <div class="mini-button main-bg-color" @click="doAction(_value.actionCode, item.code, index)">{{_value.actionName}}</div>
+                <div class="mini-button main-bg-color" @click.stop="doAction(_value.actionCode, item.code, index)">{{_value.actionName}}</div>
               </block>
             </div>
           </div>
@@ -63,6 +63,11 @@ export default {
     toHistoryOrder() { //查看历史运单
       wx.navigateTo({
         url: '../history/main'
+      })
+    },
+    bindOrderDetail(code) { //查看运单详情
+      wx.navigateTo({
+        url: `../orderDetail/main?code=${code}`
       })
     },
     getOrderList() { //获取运单列表
@@ -217,10 +222,14 @@ export default {
       })
     },
     driverLoading(code) { //发货
-
+      wx.navigateTo({
+        url: '../receiveAndDeliver/main'
+      })
     },
     driverUnloading(code) { // 收货
-
+      wx.navigateTo({
+        url: '../receiveAndDeliver/main'
+      })
     },
     doAgree(isSureWaybill,isSure) {
       var that = this;
@@ -231,6 +240,8 @@ export default {
     },
   },
   onShow() {
+    this.mark = 0;
+    this.orderList = [];
    this.getOrderList();
   },
   onPullDownRefresh() {

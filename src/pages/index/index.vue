@@ -185,6 +185,9 @@ export default {
     }
   },
   onShow() {
+    var that = this;
+    that.mark = 0;
+    that.goodList = [];
     utils.logins(this);
     this.getGoodsList();
     this.getWebViewParams();
