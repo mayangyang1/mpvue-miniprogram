@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container pdb20">
      <div class="order-list" v-if="orderList.length">
           <div class="order-item pdb20" v-for="item in orderList" :key="item.code" @click="bindWaybillDetail(item.code)">
             <div class="order-address flex-sb">

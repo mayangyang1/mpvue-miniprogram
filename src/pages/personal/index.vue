@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="personal-list">
-      <div class="personal-item flex-sb pdlr20">
+      <div class="personal-item flex-sb pdlr20" @click="bindBusinessCard">
         <div class="title flex-fs">
           <img mode="widthFix" src="/static/images/carte.png" alt="">
           <div>我的名片</div>
@@ -110,7 +110,13 @@ export default {
       logs: []
     };
   },
-
+  methods: {
+    bindBusinessCard() {
+      wx.navigateTo({
+        url: '../businessCard/main'
+      })
+    }
+  },
   created() {
    
   }

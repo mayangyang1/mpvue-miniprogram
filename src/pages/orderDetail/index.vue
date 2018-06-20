@@ -46,7 +46,7 @@
         <div class="message-title">运价</div>
         <div class="message-con text-overflow flex-fs">
           <div style="font-size:35rpx;" class="main-color">{{orderDetailObj.driverPrice}}</div>
-          <!-- <div>{{unitConfig[orderDetailObj.meterageType]['driver.price'][orderDetailObj.driverPriceUnitCode]}}</div> -->
+          <div>{{unitConfig[orderDetailObj.meterageType]["driver.price"][orderDetailObj.driverPriceUnitCode]}}</div>
         </div>
       </div>
       <div class="base-message-item flex-fs">
@@ -66,19 +66,19 @@
       </div>
       <div class="base-message-item flex-fs">
         <div class="message-title">发货重量</div>
-        <div class="message-con text-overflow">{{orderDetailObj.loadingGoodsWeight? orderDetailObj.loadingGoodsWeight : ''}}</div>
+        <div class="message-con text-overflow">{{orderDetailObj.loadingGoodsWeight? orderDetailObj.loadingGoodsWeight + '吨' : ''}}</div>
       </div>
       <div class="base-message-item flex-fs">
         <div class="message-title">发货体积</div>
-        <div class="message-con text-overflow">{{orderDetailObj.loadingGoodsVolume? orderDetailObj.loadingGoodsVolume : ''}}</div>
+        <div class="message-con text-overflow">{{orderDetailObj.loadingGoodsVolume? orderDetailObj.loadingGoodsVolume + '方' : ''}}</div>
       </div>
       <div class="base-message-item flex-fs">
         <div class="message-title">发货件数</div>
-        <div class="message-con text-overflow">{{orderDetailObj.loadingGoodsNum? orderDetailObj.loadingGoodsNum : ''}}</div>
+        <div class="message-con text-overflow">{{orderDetailObj.loadingGoodsNum? orderDetailObj.loadingGoodsNum + '件' : ''}}</div>
       </div>
       <div class="base-message-item flex-fs bdb">
         <div class="message-title">发货凭证</div>
-        <div class="message-con text-overflow flex-fs">
+        <div class="message-con text-overflow flex-fs affirm">
           <block v-for="_url in driveryUrl" :key="_url">
             <img class="voucher-picture" :src="_url" alt="">
           </block>
@@ -90,17 +90,17 @@
       </div>
       <div class="base-message-item flex-fs">
         <div class="message-title">收货重量</div>
-        <div class="message-con text-overflow">{{orderDetailObj.unloadingGoodsWeight? orderDetailObj.unloadingGoodsWeight : ''}}</div>
+        <div class="message-con text-overflow">{{orderDetailObj.unloadingGoodsWeight? orderDetailObj.unloadingGoodsWeight + '吨' : ''}}</div>
       </div>
       <div class="base-message-item flex-fs">
         <div class="message-title">收货体积</div>
-        <div class="message-con text-overflow">{{orderDetailObj.unloadingGoodsVolume? orderDetailObj.unloadingGoodsVolume : ''}}</div>
+        <div class="message-con text-overflow">{{orderDetailObj.unloadingGoodsVolume? orderDetailObj.unloadingGoodsVolume + '方' : ''}}</div>
       </div>
       <div class="base-message-item flex-fs">
         <div class="message-title">收货件数</div>
-        <div class="message-con text-overflow">{{orderDetailObj.unloadingGoodsNum? orderDetailObj.unloadingGoodsNum : ''}}</div>
+        <div class="message-con text-overflow">{{orderDetailObj.unloadingGoodsNum? orderDetailObj.unloadingGoodsNum + '件' : ''}}</div>
       </div>
-      <div class="base-message-item flex-fs">
+      <div class="base-message-item flex-fs affirm">
         <div class="message-title">收货凭证</div>
         <div class="message-con text-overflow flex-fs">
           <block v-for="_url in recivieUrl" :key="_url">
@@ -178,10 +178,10 @@ export default {
           return that.driverCancel(code);
           break;  
         case 'waybillDriverLoading':   //发货
-          return that.driverLoading();
+          return that.driverLoading(code);
           break;
         case 'waybillDriverUnloading':   //收货
-          return that.driverUnloading();
+          return that.driverUnloading(code);
           break;
         default:
           break;
@@ -198,7 +198,7 @@ export default {
         utils.postAjax(utils.hostUrl + `/driver-api/driverApi/action/list`, params, {
           success: function (res) {
             if (res.data.code == 200) {
-              that.actionObj = res.data.content;
+              that.actionObj = res.data.content || {};
             }
           },
           complete: function (res) {
@@ -347,11 +347,15 @@ export default {
         }
       })
     },
-    driverLoading() { //发货
-
+    driverLoading(code) { //发货
+      wx.navigateTo({
+        url: `../receiveAndDeliver/main?aff=0&code=${code}`
+      })
     },
-    driverUnloading() { //收货
-
+    driverUnloading(code) { //收货
+      wx.navigateTo({
+        url: `../receiveAndDeliver/main?aff=1&code=${code}`
+      })
     },
     doAgree(isSureWaybill,isSure) {
       var that = this;
@@ -367,6 +371,11 @@ export default {
     var that = this;
     that.code = that.$root.$mp.query.code;
     that.getOrderDetail();
+  },
+  onUnload() { //清空数据
+    var that = this;
+    that.driveryUrl = [];
+    that.recivieUrl = [];
   }
 };
 </script>
@@ -439,6 +448,9 @@ export default {
   position: fixed;
   bottom: 0rpx;
   left: 0;
+}
+.affirm{
+  padding-bottom: 20rpx;
 }
 .btn-item{
   flex: 1;

@@ -136,10 +136,10 @@ export default {
           return that.driverCancel(code);
           break;  
         case 'waybillDriverLoading':   //发货
-          return that.driverLoading();
+          return that.driverLoading(code);
           break;
         case 'waybillDriverUnloading':   //收货
-          return that.driverUnloading();
+          return that.driverUnloading(code);
           break;
         default:
           break;
@@ -223,12 +223,12 @@ export default {
     },
     driverLoading(code) { //发货
       wx.navigateTo({
-        url: '../receiveAndDeliver/main'
+        url: `../receiveAndDeliver/main?aff=0&code=${code}`
       })
     },
     driverUnloading(code) { // 收货
       wx.navigateTo({
-        url: '../receiveAndDeliver/main'
+        url: `../receiveAndDeliver/main?aff=1&code=${code}`
       })
     },
     doAgree(isSureWaybill,isSure) {

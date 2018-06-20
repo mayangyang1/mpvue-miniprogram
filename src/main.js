@@ -24,6 +24,7 @@ export default {
       'pages/sourceGoodsDetails/main', // 货源详情
       'pages/orderDetail/main', //运单详情
       'pages/receiveAndDeliver/main', //收发货
+      'pages/businessCard/main', //我的名片列表
     ],
     window: {
       backgroundTextStyle: 'light',
