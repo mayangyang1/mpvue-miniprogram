@@ -1,0 +1,71 @@
+.container {
+  background-color: #f2f2f2;
+}
+.common-list{
+  background-color: #fff;
+}
+.common-item{
+  height: 83rpx;
+  border-bottom: 1px solid #d8d8d8;
+}
+.common-item:nth-child(5){
+  border-bottom: none;
+}
+.common-item .title{
+  font-size: 34rpx;
+  color: #000;
+  width: 230rpx;
+}
+.edit-item{
+  flex: 1;
+  color: #888;
+  font-size: 28rpx;
+}
+.edit-item input{
+  flex: 1;
+  padding-left: 10rpx;
+}
+.edit-item .arrow{
+  width: 16rpx;
+  height: 26rpx;
+}
+
+.upload-title{
+  height: 83rpx;
+  color: #a9a9a9;
+  background-color: #f2f2f2;
+  padding: 0 30rpx;
+  border-top: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+}
+.upload-list{
+  background-color: #fff;
+}
+.upload-item{
+  position: relative;
+  margin-right: 30rpx;
+}
+.upload-item .close{
+  position:absolute;
+  top:0;
+  right:0;
+  width:50rpx;
+  height:50rpx;
+  z-index:9999;
+}
+.upload-item .defaultImg{
+  width: 210rpx;
+  height: 210rpx;
+}
+.upload-item .title{
+  text-align: center;
+}
+.warp{
+  padding-top:50rpx;
+  padding-bottom:30rpx;
+  background-color:#f2f2f2;
+}
+.common-btn{
+  width: 96vw;
+  margin: 30rpx auto;
+}
