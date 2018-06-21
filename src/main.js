@@ -25,6 +25,8 @@ export default {
       'pages/orderDetail/main', //运单详情
       'pages/receiveAndDeliver/main', //收发货
       'pages/businessCard/main', //我的名片列表
+      'pages/voitureinfo/main', //编辑车辆信息页面
+      'pages/chauffeurinfo/main', //编辑司机信息页面
     ],
     window: {
       backgroundTextStyle: 'light',
