@@ -10,7 +10,11 @@
       <div class="common-item flex-fs pdr20">
         <div class="title">车型</div>
         <div class="edit-item flex-sb">
-          <input type="text">
+          <picker @change="bindTurckType" :value="index" :range="array">
+            <div class="picker">
+            {{array[index]}}
+            </div>
+          </picker>
           <img class="arrow" src="/static/images/arrows.png" alt="">
         </div>
       </div>
@@ -106,5 +110,8 @@ export default {
 .edit-item .unit{
   font-size: 34rpx;
   color: #666;
+}
+picker{
+  flex: 1;
 }
 </style>

@@ -94,4 +94,7 @@ export default {
 
 <style scoped>
 @import '../../../static/businessCardDetail.css';
+picker{
+  flex: 1;
+}
 </style>
