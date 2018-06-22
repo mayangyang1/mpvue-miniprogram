@@ -265,6 +265,54 @@ const loading = (status, title, url) => {
     })
   }
 }
+const cartypes = [
+  [
+    { id: 'H01', type: '普通货车' },
+    { id: 'H02', type: '厢式货车' },
+    { id: 'H04', type: '罐式货车' },
+    { id: 'Q00', type: '牵引车' },
+    { id: 'G01', type: '普通挂车' },
+    { id: 'G03', type: '罐式挂车' },
+    { id: 'G05', type: '集装箱挂车' },
+    { id: 'H09', type: '仓栅式货车' },
+    { id: 'H03', type: '封闭货车' },
+    { id: 'H05', type: '平板货车' },
+    { id: 'H06', type: '集装箱车' },
+    { id: 'H07', type: '自卸货车' },
+    { id: 'H08', type: '特殊结构货车' },
+    { id: 'Z00', type: '专项作业车' },
+    { id: 'G02', type: '厢式挂车' },
+    { id: 'G07', type: '仓栅式挂车' },
+    { id: 'G04', type: '平板挂车' },
+    { id: 'G06', type: '自卸挂车' },
+    { id: 'G09', type: '专项作业挂车' },
+    { id: 'X91', type: '车辆运输车' },
+    { id: 'X92', type: '车辆运输车（单排）' }
+  ], [
+    '普通货车',
+    '厢式货车',
+    '罐式货车',
+    '牵引车',
+    '普通挂车',
+    '罐式挂车',
+    '集装箱挂车',
+    '仓栅式货车',
+    '封闭货车',
+    '平板货车',
+    '集装箱车',
+    '自卸货车',
+    '特殊结构货车',
+    '专项作业车',
+    '厢式挂车',
+    '仓栅式挂车',
+    '平板挂车',
+    '自卸挂车',
+    '专项作业挂车',
+    '车辆运输车',
+    '车辆运输车（单排）'
+  ],
+
+]
 const config = {
   truckModel: {
     'H01': '普通货车',
@@ -439,11 +487,11 @@ const config = {
 
 const attachList = ['cardFront', 'cardAfter', 'driverOne', 'driverTwo', 'qualificationCertificateResourceCode']
 const attachments = {
-  'cardFront': { name: '身份证正面', value: '/images/pic.png', status: 'hidden', resourceCode: '' },
-  'cardAfter': { name: '身份证反面', value: '/images/pic.png', status: 'hidden', resourceCode: '' },
-  'driverOne': { name: '驾驶证第一联照片', value: '/images/pic.png', status: 'hidden', resourceCode: '' },
-  'driverTwo': { name: '驾驶证第二联照片', value: '/images/pic.png', status: 'hidden', resourceCode: '' },
-  'qualificationCertificateResourceCode': { name: '从业资格证照片', value: '/images/pic.png', status: 'hidden', resourceCode: '' },
+  'cardFront': { name: '身份证正面', value: '/static/images/pic.png', status: 'hidden', resourceCode: '' },
+  'cardAfter': { name: '身份证反面', value: '/static/images/pic.png', status: 'hidden', resourceCode: '' },
+  'driverOne': { name: '驾驶证第一联照片', value: '/static/images/pic.png', status: 'hidden', resourceCode: '' },
+  'driverTwo': { name: '驾驶证第二联照片', value: '/static/images/pic.png', status: 'hidden', resourceCode: '' },
+  'qualificationCertificateResourceCode': { name: '从业资格证照片', value: '/static/images/pic.png', status: 'hidden', resourceCode: '' },
 }
 
 const monthData = ['01月', '02月', '03月', '04月', '05月', '06月', '07月', '08月', '09月', '10月', '11月', '12月'];
@@ -472,6 +520,6 @@ export{
   hourData,
   minuteData,
   wxLogin,
-  formatNumber
-
+  formatNumber,
+  cartypes
 }
