@@ -27,6 +27,14 @@ export default {
       'pages/businessCard/main', //我的名片列表
       'pages/voitureinfo/main', //编辑车辆信息页面
       'pages/chauffeurinfo/main', //编辑司机信息页面
+      'pages/collect/main', //我的收藏页面
+      'pages/joinCompany/main', //加入公司
+      'pages/oilCardMessage/main', //个人油卡信息
+      'pages/bankCardMessage/main', //我的银行卡信息
+      'pages/ownAccount/main', //我的交易账户
+      'pages/ownBankCard/main', //我的银行卡列表
+      'pages/addBankCard/main', //添加银行卡
+      'pages/manageBankCard/main', // 管理银行卡
     ],
     window: {
       backgroundTextStyle: 'light',

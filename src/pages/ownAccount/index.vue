@@ -1,132 +1,96 @@
 <template>
-  <div class="container">
-    <!-- <div class="account">
+  <div class="container pdb20">
+    <div class="account">
       <div class="account-title">账号余额</div>
-      <div class="account-money">¥ 12000.00</div>
-      <div class="account-btn row">提现</div>
+      <div class="account-money">¥ {{accountMoney}}</div>
+      <div class="account-btn row" @click="bindRaiseCash">提现</div>
       <div class="wave-list">
         <img class="wave1"  src="/static/images/wave1.png" alt="">
-        
         <img class="wave3" src="/static/images/wave3.png" alt="">
         <img class="wave2"   src="/static/images/wave2.png" alt="">
       </div>
-    </div> -->
+    </div>
     <div class="personal-list">
-      <div class="personal-item flex-sb pdlr20" @click="bindBusinessCard">
-        <div class="title flex-fs">
-          <img mode="widthFix" src="/static/images/carte.png" alt="">
-          <div>司机，车辆信息</div>
-        </div>  
-        <div class="arrow flex-sb">
-          <img mode="widthFix" src="/static/images/arrows.png" alt="">
-        </div>
-      </div>   
-      <div class="personal-item flex-sb pdlr20" @click="bindBankCardMessage">
+      <div class="personal-item flex-sb pdlr20" @click="bindBankCard">
         <div class="title flex-fs">
           <img mode="widthFix" src="/static/images/bankcard.png" alt="">
           <div>我的银行卡</div>
         </div>  
         <div class="arrow flex-sb">
+          <div class="status" v-if="bankCardLen == 0">未绑定</div>
+          <div class="status" v-else>{{bankCardLen}}张</div>
           <img mode="widthFix" src="/static/images/arrows.png" alt="">
         </div>
-      </div>  
-      <div class="personal-item flex-sb pdlr20" @click="bindOwnAccount">
+      </div>   
+      <div class="personal-item flex-sb pdlr20" @click="bindTransactionMessage">
         <div class="title flex-fs">
-          <img mode="widthFix" src="/static/images/tradingaccount.png" alt="">
-          <div>我的交易账户</div>
+          <img mode="widthFix" src="/static/images/transaction.png" alt="">
+          <div>交易记录</div>
         </div>  
         <div class="arrow flex-sb">
           <img mode="widthFix" src="/static/images/arrows.png" alt="">
         </div>
       </div>  
-      <div class="personal-item flex-sb pdlr20" @click="joinCompany">
+      <div class="personal-item flex-sb pdlr20" @click="bindSafetySet">
         <div class="title flex-fs">
-          <img mode="widthFix" src="/static/images/joinCompany.png" alt="">
-          <div>加入公司</div>
-        </div>  
-        <div class="arrow flex-sb">
-          <img mode="widthFix" src="/static/images/arrows.png" alt="">
-        </div>
-      </div>
-      <div class="personal-item flex-sb pdlr20" @click="bindOilCardMessage">
-        <div class="title flex-fs">
-          <img mode="widthFix" src="/static/images/oilcard.png" alt="">
-          <div>我的油卡信息</div>
-        </div>  
-        <div class="arrow flex-sb">
-          <img mode="widthFix" src="/static/images/arrows.png" alt="">
-        </div>
-      </div>  
-      <div class="personal-item flex-sb pdlr20" @click="bindCollect">
-        <div class="title flex-fs">
-          <img mode="widthFix" src="/static/images/collection.png" alt="">
-          <div>我的收藏</div>
+          <img mode="widthFix" src="/static/images/safety.png" alt="">
+          <div>安全设置</div>
         </div>  
         <div class="arrow flex-sb">
           <img mode="widthFix" src="/static/images/arrows.png" alt="">
         </div>
       </div> 
-        
     </div>      
-  </div>
+  </div> 
 </template>
 
 <script>
+import * as utils from "../../utils/index.js";
 export default {
-  components: {
-    
-  },
-
+  components: {},
   data() {
     return {
-      logs: []
+     accountMoney: '',
+     bankCardLen: 0,
+     userPhone: ''
     };
   },
   methods: {
-    bindBusinessCard() {
-      wx.navigateTo({
-        url: '../businessCard/main'
-      })
+    getOwnAccountMessage() { //获取个人账户信息
+      var that = this;
+      utils.postAjax(utils.hostUrl + `/pay/mobile/userIndex`, {}, {
+        success: function (res) {
+          if(res.data.code == 200 && res.data.content){
+            var data = res.data.content;
+            that.accountMoney = data.userInfo.cash.toFixed(2);
+            that.bankCardLen = data.bankCardList.length;
+            that.userPhone = data.phoneNumber;
+            wx.setStorageSync("userPhone", that.userPhone);
+          }else{
+            utils.errorToast(res.data.content);
+          }
+        
+        },
+      });
     },
-    bindCollect() {
+    bindBankCard() { //我的银行卡列表
       wx.navigateTo({
-        url: '../collect/main'
-      })
-    },
-    joinCompany() {
-      wx.navigateTo({
-        url: '../joinCompany/main'
-      })
-    },
-    bindOilCardMessage() {
-      wx.navigateTo({
-        url: '../oilCardMessage/main'
-      })
-    },
-    bindBankCardMessage() {
-      wx.navigateTo({
-        url: '../bankCardMessage/main'
-      })
-    },
-    bindOwnAccount() {
-      wx.navigateTo({
-        url: '../ownAccount/main'
+        url: '../ownBankCard/main'
       })
     }
   },
-  created() {
-   
-  }
+  onShow() {
+    this.getOwnAccountMessage();
+  },
 };
 </script>
 
 <style scoped>
-.container{
+.container {
   width: 100vw;
   min-height: 100vh;
-  background-color: #eee;
+  background-color: #f2f2f2;
   font-size: 32rpx;
-  padding-bottom: 40rpx;
 }
 .account{
   position: relative;
@@ -225,6 +189,7 @@ export default {
 .arrow .status{
   font-size: 28rpx;
   color: #999;
+  margin-right: 20rpx;
 }
 
 </style>
