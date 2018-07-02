@@ -89,9 +89,18 @@ export default {
       })
     },
     bindRaiseCash() {
-      wx.navigateTo({
-        url: '../raiseCash/main'
-      })
+      var that = this;
+      console.log(that.bankCardLen)
+      if(that.bankCardLen) {
+        wx.navigateTo({
+          url: '../raiseCash/main'
+        })
+      }else{
+        wx.navigateTo({
+          url: '../addBankCard/main'
+        })
+      }
+      
     }
   },
   onShow() {

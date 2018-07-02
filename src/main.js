@@ -64,7 +64,7 @@ export default {
         },
         {
           pagePath: "pages/personal/main",
-          text: "我的",
+          text: "我",
           selectedIconPath: "static/images/wda.png",
           iconPath: "static/images/wdb.png"
         }

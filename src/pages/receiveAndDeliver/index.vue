@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       msg:'',
-      aff: 0, //0为发货 1为收货
+      aff: 0, //0为装货 1为卸货
       nowTime: "", //收发货时间
       isChoiceTime: false,
       deliverWeight: "", //重量
@@ -280,14 +280,14 @@ export default {
     // 判断收发货
     if(that.aff == 0) {
       wx.setNavigationBarTitle({
-        title: '确认发货'
+        title: '确认装货'
       })
-      that.msg = '发货';
+      that.msg = '装货';
     }else if(that.aff == 1) {
       wx.setNavigationBarTitle({
-        title: '确认收货'
+        title: '确认卸货'
       })
-      that.msg = '收货';
+      that.msg = '卸货';
     }
   },
   onUnload() { //清空数据
