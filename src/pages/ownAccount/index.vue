@@ -77,6 +77,21 @@ export default {
       wx.navigateTo({
         url: '../ownBankCard/main'
       })
+    },
+    bindTransactionMessage() {
+      wx.navigateTo({
+        url: '../transactionRecord/main'
+      })
+    },
+    bindSafetySet() {
+      wx.navigateTo({
+        url: '../securitySetting/main'
+      })
+    },
+    bindRaiseCash() {
+      wx.navigateTo({
+        url: '../raiseCash/main'
+      })
     }
   },
   onShow() {

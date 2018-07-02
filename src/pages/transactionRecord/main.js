@@ -6,7 +6,8 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '我的交易账户',
-        enablePullDownRefresh: false,
+        navigationBarTitleText: '交易记录',
+        enablePullDownRefresh: true,
+        onReachBottomDistance: 50
     }
 }

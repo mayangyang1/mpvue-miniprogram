@@ -6,7 +6,7 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '我的交易账户',
-        enablePullDownRefresh: false,
+        navigationBarTitleText: '安全设置',
+        enablePullDownRefresh: false
     }
 }

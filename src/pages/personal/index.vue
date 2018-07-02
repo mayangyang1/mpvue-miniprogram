@@ -1,16 +1,5 @@
 <template>
   <div class="container">
-    <!-- <div class="account">
-      <div class="account-title">账号余额</div>
-      <div class="account-money">¥ 12000.00</div>
-      <div class="account-btn row">提现</div>
-      <div class="wave-list">
-        <img class="wave1"  src="/static/images/wave1.png" alt="">
-        
-        <img class="wave3" src="/static/images/wave3.png" alt="">
-        <img class="wave2"   src="/static/images/wave2.png" alt="">
-      </div>
-    </div> -->
     <div class="personal-list">
       <div class="personal-item flex-sb pdlr20" @click="bindBusinessCard">
         <div class="title flex-fs">
@@ -67,11 +56,13 @@
         </div>
       </div> 
         
-    </div>      
+    </div>     
+    <div class="common-btn row" @click="bindLoginOut">退出</div> 
   </div>
 </template>
 
 <script>
+import * as utils from '../../utils/index.js';
 export default {
   components: {
     
@@ -111,6 +102,33 @@ export default {
     bindOwnAccount() {
       wx.navigateTo({
         url: '../ownAccount/main'
+      })
+    },
+    bindLoginOut() { //退出账号
+      var that = this;
+      wx.showModal({
+        title: '提示',
+        content: '确定退出吗?',
+        success: function (res) {
+          if (res.confirm) {
+            that.loginOut();
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      }) 
+    },
+    loginOut() {
+      utils.getAjax(utils.hostUrl + '/account/weixinLogout', {
+        success: function (res){
+          if(res.data.code === 200){
+            wx.switchTab({
+              url: '../index/main',
+            })
+          }else{
+            utils.errorToast(res.data.content)
+          }
+        }
       })
     }
   },
@@ -226,5 +244,12 @@ export default {
   font-size: 28rpx;
   color: #999;
 }
-
+.common-btn{
+  background-color: #fff;
+  color: #454545;
+  width: 90vw;
+  position: absolute;
+  bottom: 60rpx;
+  left: 5vw;
+}
 </style>

@@ -6,7 +6,7 @@ app.$mount()
 
 export default {
     config: {
-        navigationBarTitleText: '我的交易账户',
+        navigationBarTitleText: '详情',
         enablePullDownRefresh: false,
     }
 }

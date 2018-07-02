@@ -35,6 +35,12 @@ export default {
       'pages/ownBankCard/main', //我的银行卡列表
       'pages/addBankCard/main', //添加银行卡
       'pages/manageBankCard/main', // 管理银行卡
+      'pages/transactionRecord/main', //交易记录列表
+      'pages/recordDetail/main', //交易记录详情
+      'pages/securitySetting/main', // 密码安全设置
+      'pages/changePassword/main', //修改交易密码
+      'pages/raiseCash/main', //提现界面
+      
     ],
     window: {
       backgroundTextStyle: 'light',

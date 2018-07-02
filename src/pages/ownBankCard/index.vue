@@ -57,14 +57,13 @@ export default {
     }
   },
   onShow() {
+    this.bankCardList = [];
     this.getBankCardList();
   },
   onPullDownRefresh() {
-   
+   this.bankCardList = [];
+    this.getBankCardList();
   },
-  onReachBottom() {
-    
-  }
 };
 </script>
 

@@ -4,37 +4,37 @@
       <div class="addCardItem flex-fs pdr20">
         <div class="addCard-title">开户行</div>
         <div class="addCard-con flex-fs">
-          <input v-model.lazy="bankName" placeholder="请输入开户行" type="text">
+          <input v-model="bankName" placeholder="请输入开户行" type="text">
         </div>
       </div>
       <div class="addCardItem flex-fs pdr20">
         <div class="addCard-title">银行户名</div>
         <div class="addCard-con flex-fs">
-          <input  v-model.lazy="accountName"  placeholder="请输入银行户名" type="text">
+          <input  v-model="accountName"  placeholder="请输入银行户名" type="text">
         </div>
       </div>
       <div class="addCardItem flex-fs pdr20">
         <div class="addCard-title">银行账号</div>
         <div class="addCard-con flex-fs">
-          <input  v-model.lazy="accountNo"  placeholder="请输入银行账号" type="text">
+          <input  v-model="accountNo"  placeholder="请输入银行账号" type="text">
         </div>
       </div>
       <div class="addCardItem flex-fs pdr20">
         <div class="addCard-title">身份证号</div>
         <div class="addCard-con flex-fs">
-          <input  v-model.lazy="idCard"  placeholder="请输入身份证号" type="text">
+          <input  v-model="idCard"  placeholder="请输入身份证号" type="text">
         </div>
       </div>
       <div class="addCardItem flex-fs pdr20">
         <div class="addCard-title">手机号</div>
         <div class="addCard-con flex-fs">
-          <input  v-model.lazy="mobile"  placeholder="请输入手机号" type="text">
+          <input  v-model="mobile"  placeholder="请输入手机号" type="text">
         </div>
       </div>
       <div class="addCardItem flex-fs pdr20">
         <div class="addCard-title">验证码</div>
         <div class="addCard-con flex-sb">
-          <input  v-model.lazy="verificationCode"  placeholder="请输入验证码" type="text">
+          <input  v-model="verificationCode"  placeholder="请输入验证码" type="text">
           <div class="title main-bg-color" v-if="!isVerifyCode" @click="bindPhoneVerfyCode">获取验证码</div>
           <div class="title-c" v-else>重新获取({{time}})</div>
         </div>
@@ -44,13 +44,17 @@
       </div>
     </div>
     <div class="common-btn main-bg-color row" @click="bindSureAddBankCard">确认</div>
+    <warn-pop v-if="isAddMessage"  @onSure="onSure" :msg="msg" :failMsg="failMsg" :bankName="bankName" :accountNo="accountNo"></warn-pop>
   </div> 
 </template>
 
 <script>
 import * as utils from "../../utils/index.js";
+import WarnPop from '@/components/warnPop';
 export default {
-  components: {},
+  components: {
+    'warn-pop': WarnPop
+  },
   data() {
     return {
       bankName: '', //开户行
@@ -61,13 +65,15 @@ export default {
       verificationCode: '', //验证码
       isVerifyCode: false,
       time: 60,
+      isAddMessage: false,
+      msg: '',
+      click: true,
     };
   },
   methods: {
     sendPhoneCode() { //发送验证码
       utils.postAjax(utils.hostUrl + `/pay/mobile/sendAddBankCardVerifyCode`, {mobile: this.mobile}, {//发送验证码
         success: function (res) {
-          
         },
       });
     },
@@ -113,12 +119,14 @@ export default {
         if (params.accountName != '' && params.accountNo != '' && params.idCard != '' && params.mobile != '' && params.verificationCode != '') {
           utils.postAjax(utils.hostUrl + `/pay/mobile/addBankCard`, params, {//添加银行卡
             success: function (res) {
-              // if (res.data.code === 200 && res.data.content) {
-              //   that.setData({ isAddMessage: true, msg: '成功' });
-              // } else {
-              //   that.setData({ isAddMessage: true, msg: '失败', failMsg: res.data.content }); 
-              // }
-
+              if (res.data.code === 200 && res.data.content) {
+                that.isAddMessage = true;
+                that.msg = '成功';
+              } else {
+                that.isAddMessage = true;
+                that.msg = '失败';
+                that.failMsg = res.data.content;
+              }
             },
             complete:function(){
               that.click = true;
@@ -130,10 +138,30 @@ export default {
         }
       }
     
+    },
+    onSure(tips){
+      if(tips) {
+        wx.navigateBack({
+          delta:1
+        })
+      }else{
+        this.isAddMessage = false;
+      }
+      
+      
     }
   },
   onShow() {
-    
+    var that = this;
+    that.bankName = '';//开户行
+    that.accountName = ''; //银行户名
+    that.accountNo = ''; //银行账号
+    that.idCard = '';//身份证号
+    that.mobile = '';
+    that.verificationCode = '';//验证码
+    that.isVerifyCode = false;
+    that.time = 60;
+    that.isAddMessage = false;
   },
 };
 </script>
@@ -190,6 +218,8 @@ export default {
 
 }
 .common-btn{
+  width: 96vw;
+  margin: 0 auto;
   margin-top: 40rpx;
 }
 </style>
