@@ -7,6 +7,7 @@ app.$mount()
 export default {
     config: {
         navigationBarTitleText: '提现',
-        enablePullDownRefresh: false
+        enablePullDownRefresh: true,
+        onReachBottomDistance: 50
     }
 }

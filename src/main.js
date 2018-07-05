@@ -40,6 +40,7 @@ export default {
       'pages/securitySetting/main', // 密码安全设置
       'pages/changePassword/main', //修改交易密码
       'pages/raiseCash/main', //提现界面
+      'pages/raiseCashResult/main', //提现成功提示页面
       
     ],
     window: {

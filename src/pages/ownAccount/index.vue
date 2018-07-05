@@ -93,7 +93,7 @@ export default {
       console.log(that.bankCardLen)
       if(that.bankCardLen) {
         wx.navigateTo({
-          url: '../raiseCash/main'
+          url: '../raiseCash/main?accountMoney=' + that.accountMoney
         })
       }else{
         wx.navigateTo({
