@@ -266,6 +266,8 @@ export default {
 
 <style scoped>
 .container {
+  background-color: #f2f2f2;
+  min-height: 100vh;
 }
 .con-title {
   height: 83rpx;

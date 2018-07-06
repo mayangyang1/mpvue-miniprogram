@@ -45,6 +45,10 @@ export default {
         yearData: [],
         monthData: utils.monthData,
         dayData: utils.dayData,
+        dayData31:utils.dayData,
+        dayData30: utils.dayData.slice(1, utils.dayData.length-1),
+        dayData29 :utils.dayData.slice(1, utils.dayData.length-2),
+        dayData28 :utils.dayData.slice(1, utils.dayData.length-3),
         hourData: utils.hourData,
         minuteData: utils.minuteData,
         year_index: 0,
@@ -55,6 +59,9 @@ export default {
     };
   },
   methods: {
+    isLeapYear(year) { //判断是否为闰年
+        return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0); 
+    },
     bindTimeCancel() {
         var that = this;
         that.$emit('selectDate', false, that.nowTime);
@@ -69,11 +76,46 @@ export default {
         that.nowTime = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':00';
         that.$emit('selectDate', false, that.nowTime);
     },
+    isDayNumber(month) {
+        var dayNumber = '';
+        if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
+            return dayNumber = 31;
+        }else if(month == 4 || month == 6 || month == 9 || month == 11){
+            return dayNumber = 30;
+        }else if(month == 2) {
+            return dayNumber = 28;
+        }
+    },
+     getDataNumber() {
+        var that = this;
+        if(that.isLeapYear(that.yearData[0].slice(0,4))){//为润年
+            if(that.isDayNumber(that.monthData[that.month_index].slice(0,2)) == 31){
+                return that.dayData = that.dayData31;
+            }
+            if(that.isDayNumber(that.monthData[that.month_index].slice(0,2)) == 30){
+                return that.dayData = that.dayData30;
+            }
+            if(that.isDayNumber(that.monthData[that.month_index].slice(0,2)) == 28){
+                return that.dayData = that.dayData29;
+            }
+        }else{
+            if(that.isDayNumber(that.monthData[that.month_index].slice(0,2)) == 31){
+                return that.dayData = that.dayData31;
+            }
+            if(that.isDayNumber(that.monthData[that.month_index].slice(0,2)) == 30){
+                return that.dayData = that.dayData30;
+            }
+            if(that.isDayNumber(that.monthData[that.month_index].slice(0,2)) == 28){
+                return that.dayData = that.dayData28;
+            }
+        }
+    },
     bindMonthChange(e) {
         console.log(e);
         var that = this;
         var _index = e.target.value[0];
         that.month_index = _index;
+        that.getDataNumber();
     },
     bindDayChange(e) {
         var that = this;
@@ -101,6 +143,7 @@ export default {
                 that.month_index = i;
             }
         })
+        that.getDataNumber();
         that.dayData.forEach((v, i)=>{
             if(day == v) {
                 that.day_index = i;

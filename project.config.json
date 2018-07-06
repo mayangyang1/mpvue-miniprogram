@@ -9,8 +9,9 @@
 	},
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
-	"appid": "wx2044f0961dd8f53c",
-	"projectname": "mpvue-%E8%9E%8D%E9%93%BE%E5%8F%B8%E6%9C%BA%E7%AB%AF",
+	"appid": "wx3b900be5bc843dd0",
+	"projectname": "mpvue-test%20%E6%B5%8B%E8%AF%95",
+	"libVersion": "2.1.1",
 	"condition": {
 		"search": {
 			"current": -1,
