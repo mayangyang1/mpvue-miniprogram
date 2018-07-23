@@ -206,7 +206,7 @@ export default {
           !params.loadingGoodsNum &&
           !params.loadingGoodsVolume
         ) {
-          app.errorToast("信息不全");
+          utils.errorToast("信息不全");
           that.click = true;
           return;
         }
@@ -232,7 +232,7 @@ export default {
           !params.unloadingGoodsNum &&
           !params.unloadingGoodsVolume
         ) {
-          app.errorToast("信息不全");
+          utils.errorToast("信息不全");
           that.click = true;
           return;
         }

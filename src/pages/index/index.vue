@@ -188,9 +188,9 @@ export default {
     var that = this;
     that.mark = 0;
     that.goodList = [];
-    utils.logins(this);
-    this.getGoodsList();
-    this.getWebViewParams();
+    utils.logins(that);
+    that.getGoodsList();
+    that.getWebViewParams();
   },
   onPullDownRefresh() {
     this.mark = 0;

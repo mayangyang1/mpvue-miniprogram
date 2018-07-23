@@ -175,6 +175,7 @@ const login = (code, encryptedData, iv, skip, loginAccount, password, isBtn) => 
             url: '/pages/index/main'
           })
         }
+        return true;
       }
     }
   });
@@ -521,5 +522,6 @@ export{
   minuteData,
   wxLogin,
   formatNumber,
-  cartypes
+  cartypes,
+  getCookieAndSaveInStorage,
 }

@@ -80,7 +80,7 @@
         <div class="message-title">发货凭证</div>
         <div class="message-con text-overflow flex-fs affirm">
           <block v-for="_url in driveryUrl" :key="_url">
-            <img class="voucher-picture" :src="_url" alt="">
+            <img class="voucher-picture" @click="bindSeeImage(_url)" :src="_url" alt="">
           </block>
         </div>
       </div>
@@ -104,7 +104,7 @@
         <div class="message-title">收货凭证</div>
         <div class="message-con text-overflow flex-fs">
           <block v-for="_url in recivieUrl" :key="_url">
-            <img class="voucher-picture" :src="_url" alt="">
+            <img class="voucher-picture" @click="bindToSeeImage(_url)" :src="_url" alt="">
           </block>
           
         </div>
@@ -365,12 +365,67 @@ export default {
       }
     },
     // 业务动作操作list -- end
+    bindSeeImage(url) {
+      wx.previewImage({
+        current: url, // 当前显示图片的http链接
+        urls: this.driveryUrl // 需要预览的图片http链接列表
+      })
+    },
+    bindToSeeImage(url) {
+      wx.previewImage({
+        current: url,
+        urls: this.recivieUrl
+      })
+    },
+    relogins() {  // 每次进入到货源详情页都登录下----
+      var that = this;
+      wx.login({
+        success: function (res) {
+          if (res.code) {
+            wx.setStorageSync('wxcode', res.code);
+            var code = res.code;
+            wx.getUserInfo({
+              success: function (res) {
+                var params = {};
+                params.code = code;
+                params.type = "rltx-driver";
+                params.encryptedData = res.encryptedData;
+                params.iv = res.iv;
+                utils.postAjax(utils.hostUrl + '/account/weixinLogin', params, {
+                  success: function (res) {
+                    if (res.data.code == 501) {
+                      wx.redirectTo({
+                        url: '../login/main',
+                      });
+                    } else {
+                      utils.getCookieAndSaveInStorage(res);
+                      wx.setStorageSync("userCode", res.data.content.userCode);
+                      //详情接口处理 --start
+                      that.code = that.$root.$mp.query.code;
+                      that.getOrderDetail();                    
+                      //详情接口处理 --end
+                    }
+                  }
+                });
+              },
+              fail: function (res) {
+                wx.redirectTo({
+                  url: '../jurisdiction/main',
+                })
+              }
+            });
+          } else {
+            console.log('获取用户登录态失败！' + res.errMsg)
+          }
+        }, fail: function (res) {
+          errorToast('微信授权失败');
+        }
+      });
+    },
 
   },
-  onShow() {
-    var that = this;
-    that.code = that.$root.$mp.query.code;
-    that.getOrderDetail();
+  onLoad() {
+    this.relogins();
   },
   onUnload() { //清空数据
     var that = this;

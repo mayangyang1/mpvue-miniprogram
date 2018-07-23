@@ -79,7 +79,7 @@ export default {
       })
     } 
   },
-  onShow() {
+  onLoad() {
     var that = this;
     that.mark = 0;
     that.orderList = [];
