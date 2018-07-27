@@ -85,7 +85,6 @@ const logins = (_this, loginAccount, password, isBtn) => {
  */
 
 const ajax = (types, url, params, callfunc, attch) => {
-  var that = this;
   if (url == '' || types == '') return;
   var params = params || {};
   var cookie = wx.getStorageSync('cookies');
